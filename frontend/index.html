@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rapid Response EMS Demo</title>
+    <script src="js/api.js" defer></script>
+</head>
+<body>
+    <h1>Request Ambulance</h1>
+    Latitude: <input id="lat" value="12.9716">
+    Longitude: <input id="lon" value="77.5946">
+    <button onclick="requestAmbulance()">Request</button>
+    <p id="result"></p>
+
+    <h2>Available Ambulances</h2>
+    <button onclick="loadAmbulances()">Refresh</button>
+    <ul id="ambulancesList"></ul>
+</body>
+</html>
