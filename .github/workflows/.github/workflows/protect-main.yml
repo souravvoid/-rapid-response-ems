@@ -1,0 +1,21 @@
+name: Protect Main Branch
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:  # allows you to run manually from GitHub UI
+
+jobs:
+  protect:
+    runs-on: fedora
+
+    steps:
+      - name: Protect main branch using GitHub API
+        uses: octokit/request-action@v2.x
+        with:
+          route: PUT /repos/${{ github.repository }}/branches/main/protection
+          enforce_admins: true
+          required_pull_request_reviews: '{"required_approving_review_count": 1}'
+          restrictions: '{"users":["souravvoid"],"teams":[]}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
