@@ -1,93 +1,337 @@
-# Rapid Response System For Emergency Medical Services
 
+# 🚑 **Rapid Response EMS — Intelligent Emergency Dispatch System**
 
+*Graph-based ETA engine • Smart Ambulance Assignment • Hospital Bed Checking • Driver Live Tracking*
 
-## Getting started
+---
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## 📌 **Overview**
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+**Rapid Response EMS** is a full-stack emergency dispatch system built with **Flask + Vanilla JS**, designed to:
 
-## Add your files
+* Register emergency incidents
+* Assign the *best ambulance* using **Dijkstra shortest path algorithm**
+* Estimate arrival time (ETA) using graph distances
+* Check nearest hospitals + bed availability
+* Track driver’s live GPS on the dashboard
+* Provide separate dashboards for **Users** and **Drivers**
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+The system chooses the optimal ambulance and hospital based on:
+
+* Distance (graph-calculated)
+* Severity of emergency
+* ICU/emergency facility availability
+* Real-time ambulance & driver status
+
+---
+
+# 🏗 **Project Structure**
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/pbl-on-data/rapid-response-system-for-emergency-medical-services.git
-git branch -M main
-git push -uf origin main
+project/
+│
+├── app/
+│   ├── __init__.py
+│   ├── db.py
+│   ├── models.py
+│   ├── routes/
+│   │   ├── auth.py          <-- login/signup
+│   │   ├── dashboard.py     <-- user dashboard
+│   │   ├── emergency.py     <-- incident creation + dispatch logic
+│   │   ├── driver.py        <-- driver dashboard & GPS updates
+│   ├── utils/
+│   │   ├── graph.py         <-- Dijkstra algorithm + graph builder
+│   │   ├── hospital_check.py
+│   │   └── seed_data.py
+│
+├── templates/
+│   ├── login.html
+│   ├── signup.html
+│   ├── dashboard.html
+│   ├── emergency_form.html
+│   ├── driver_dashboard.html
+│
+├── static/
+│   ├── css/style.css
+│   ├── js/auth.js
+│   ├── js/dashboard.js
+│   ├── js/emergency.js
+│   ├── js/driver.js
+│
+├── seed.py
+└── run.py
 ```
 
-## Integrate with your tools
+---
 
-- [ ] [Set up project integrations](https://gitlab.com/pbl-on-data/rapid-response-system-for-emergency-medical-services/-/settings/integrations)
+# ⚙️ **Features**
 
-## Collaborate with your team
+### ### **1️⃣ Authentication**
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+* User signup/login
+* Driver login
+* Session-based authentication
+* Redirects based on role
 
-## Test and Deploy
+---
 
-Use the built-in continuous integration in GitLab.
+### **2️⃣ Emergency Registration**
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+User fills:
 
-***
+* Name
+* Location (GPS auto-detected)
+* Severity (critical/high/medium/low)
+* Description
 
-# Editing this README
+Front-end calls:
+`POST /api/emergency`
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+---
 
-## Suggestions for a good README
+### **3️⃣ Dispatch Engine (Core Logic)**
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+The backend:
 
-## Name
-Choose a self-explaining name for your project.
+✔ Builds a graph of
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+* Ambulances
+* Incident
+* Hospitals
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+✔ Runs **Dijkstra’s Algorithm** for each ambulance
+✔ Computes route cost & ETA
+✔ Evaluates severity
+✔ Finds nearest hospital with:
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+* Emergency department
+* Available beds
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+✔ Assigns:
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+* Best ambulance
+* Best driver
+* Best hospital
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+---
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+### **4️⃣ Driver Dashboard**
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+Driver sees:
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+* Assigned incident
+* Route info
+* Maps with live ambulance GPS
+* ETA
+* Patient location
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+Driver sends updates:
+`POST /api/driver/update_location`
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+---
 
-## License
-For open source projects, say how it is licensed.
+### **5️⃣ User Dashboard**
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+User sees:
+
+* Assigned ambulance
+* Driver info
+* Live ambulance location
+* ETA
+* Hospital assigned
+
+---
+
+# 🛠 **Setup Instructions**
+
+## **1️⃣ Create Virtual Environment**
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+---
+
+## **2️⃣ Install Dependencies**
+
+### **Flask Essentials**
+
+```bash
+pip install flask flask_sqlalchemy flask_bcrypt flask_login flask_cors
+```
+
+### **Backend Tools**
+
+```bash
+pip install python-dotenv geopy
+```
+
+---
+
+## **3️⃣ Initialize Database**
+
+```bash
+python seed.py
+```
+
+This creates:
+
+* Users
+* Drivers
+* Ambulances
+* Hospitals
+
+---
+
+## **4️⃣ Run Server**
+
+```bash
+python run.py
+```
+
+App runs at:
+👉 [http://127.0.0.1:5000](http://127.0.0.1:5000)
+
+---
+
+# 🧠 **How the Dispatch Algorithm Works**
+
+## **Graph Construction**
+
+Each ambulance, hospital, and the incident becomes a **node**:
+
+```
+AMB-1  ————<
+             >—— INCIDENT —— HOSP-1
+AMB-2  ————<
+```
+
+Edges contain:
+
+* Road distance (km)
+* Weighted travel cost
+
+---
+
+## **Dijkstra Algorithm**
+
+Located in:
+📁 `app/utils/graph.py`
+
+Used to compute:
+
+* Shortest route from ambulance → incident
+* Shortest route from incident → hospital
+
+---
+
+## **Hospital Selection**
+
+Module:
+📁 `app/utils/hospital_check.py`
+
+Logic:
+
+1. Sort hospitals by distance
+2. Check:
+
+   * Emergency department?
+   * ICU?
+   * Available beds?
+3. If nearest is full → pick second nearest
+4. Auto fallback mechanism
+
+---
+
+## **ETA Calculation**
+
+```
+ETA = distance(km) / avg_speed
+```
+
+Speed default: **60 km/h**
+Fully customizable.
+
+---
+
+# 🧪 **Testing Guide**
+
+You should test:
+
+### ✔ Authentication
+
+* Wrong password
+* Missing fields
+* Session expiration
+
+### ✔ Emergency Form
+
+* Missing GPS
+* All severity levels
+
+### ✔ Dispatch Logic
+
+* No ambulances available
+* No hospitals available
+* Out-of-range distances
+
+### ✔ Driver Dashboard
+
+* Live GPS
+* API updates
+* Route refresh
+
+### ✔ Background Load
+
+* Multiple incidents
+* Priority assignment
+* Graph performance
+
+---
+
+# 🖼 **Screenshots (Suggested to Add)**
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.9%2B-blue" />
+  <img src="https://img.shields.io/badge/Framework-Flask-green" />
+  <img src="https://img.shields.io/badge/License-MIT-yellow" />
+  <img src="https://img.shields.io/badge/Status-Active-success" />
+  <img src="https://img.shields.io/badge/Build-Passing-brightgreen" />
+  <img src="https://img.shields.io/badge/Platform-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey" />
+</p>
+
+
+
+Add images in README:
+
+* Login page
+* User dashboard
+* Emergency form
+* Driver dashboard
+* Real-time map
+
+---
+
+# 🔮 **Future Improvements**
+
+Some cool features you can add:
+
+* Real-time WebSocket GPS
+* AI-based ambulance prediction
+* Traffic-aware ETA (Google/OSRM)
+* Panic-button mobile app
+* Admin control dashboard
+* Driver shift scheduling
+* Multi-language support
+
+---
+
+# 🏁 **Conclusion**
+
+This system gives you:
+
+✔ Real dispatch logic
+✔ Real hospital fallback
+✔ Real graph algorithm
+✔ Real driver GPS tracking
