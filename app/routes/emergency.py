@@ -8,7 +8,7 @@ emergency_bp = Blueprint("emergency", __name__)
 
 @emergency_bp.route("/emergency", methods=["GET"])
 def emergency_form_page():
-    # user must be logged in (simple session check)
+   
     return render_template("emergency_form.html")
 
 @emergency_bp.route("/api/emergency", methods=["POST"])
@@ -21,7 +21,7 @@ def api_emergency():
     lon = float(data.get("longitude"))
     severity = data.get("severity", "medium")
 
-    # create incident record
+   
     incident = Incident(
         patient_name=patient_name,
         contact_number=contact,
@@ -37,11 +37,11 @@ def api_emergency():
     ambulances = Ambulance.query.filter(Ambulance.status == "available").all()
     hospitals = Hospital.query.filter(Hospital.has_emergency == True).all()
 
-    # if no ambulances
+   
     if not ambulances:
         return jsonify({"error":"No ambulances available","incident_id":incident.id}), 200
 
-    # build graph
+   
     graph = build_graph_from_points(ambulances, hospitals, (lat, lon))
 
     # compute for each ambulance: distance (via graph) and full route to hospital through incident
@@ -84,14 +84,14 @@ def api_emergency():
     candidates.sort(key=lambda c: c["distance_km"])
     best = candidates[0]
 
-    # assign
+  
     incident.assigned_ambulance_id = best["ambulance"].id
     incident.assigned_driver_id = best["driver"].id if best["driver"] else None
     incident.assigned_hospital_id = best["assigned_hospital"].id if best["assigned_hospital"] else None
     incident.status = "assigned"
     incident.estimated_arrival_time = best["eta_iso"]
 
-    # update ambulance/driver state
+  
     best["ambulance"].status = "assigned"
     if best["driver"]:
         best["driver"].is_available = False
