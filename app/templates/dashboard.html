@@ -2,18 +2,46 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Dashboard</title>
+  <title>Dashboard - Smart Ambulance</title>
   <link rel="stylesheet" href="/static/css/style.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
+
 <body>
-  <h2>Dashboard</h2>
-  <p><a href="/emergency">Register Emergency</a> | <a href="/logout">Logout</a></p>
 
-  <div id="assigned"></div>
-  <div id="map" style="height:400px"></div>
+<div class="sidebar">
+  <div class="brand">Smart Ambulance</div>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="/static/js/dashboard.js"></script>
+  <div class="nav-item"><a class="active">Dashboard</a></div>
+  <div class="nav-item"><a href="/emergency">Report Emergency</a></div>
+  <div class="nav-item"><a href="/logout">Logout</a></div>
+</div>
+
+<div class="main">
+
+  <div class="topbar">
+    <h1>Dashboard</h1>
+    <button class="btn-logout" onclick="location.href='/logout'">Logout</button>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <h2>Assigned Requests</h2>
+      <div id="assigned"></div>
+    </div>
+
+    <div class="card">
+      <h2>Live Map</h2>
+      <p style="color:var(--muted)">Ambulance & Hospital View</p>
+      <div id="map"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/static/js/dashboard.js"></script>
 </body>
 </html>

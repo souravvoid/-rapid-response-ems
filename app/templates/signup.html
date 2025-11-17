@@ -1,15 +1,47 @@
 <!doctype html>
 <html>
-<head><meta charset="utf-8"><title>Sign Up</title></head>
+<head>
+  <meta charset="utf-8">
+  <title>Sign Up - Smart Ambulance</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
 <body>
-  <h2>Sign Up</h2>
-  <form id="signupForm">
-    <input placeholder="Full name" id="name" required><br>
-    <input placeholder="Email" id="email" required><br>
-    <input placeholder="Password" type="password" id="password" required><br>
-    <button type="submit">Sign Up</button>
-  </form>
-  <p>Have account? <a href="/login">Login</a></p>
+
+<div class="sidebar">
+  <div class="brand">Smart Ambulance</div>
+  <div class="nav-item"><a href="/login">Login</a></div>
+  <div class="nav-item"><a class="active">Sign Up</a></div>
+</div>
+
+<div class="main">
+  <div class="topbar">
+    <h1>Create Account</h1>
+  </div>
+
+  <div class="card" style="max-width:420px;">
+    <form id="signupForm">
+
+      <div class="form-group">
+        <label class="label">Full Name</label>
+        <input class="input" id="name" required>
+      </div>
+
+      <div class="form-group">
+        <label class="label">Email</label>
+        <input class="input" id="email" required>
+      </div>
+
+      <div class="form-group">
+        <label class="label">Password</label>
+        <input class="input" id="password" type="password" required>
+      </div>
+
+      <button class="btn" type="submit">Sign Up</button>
+    </form>
+  </div>
+
+</div>
 
 <script src="/static/js/auth.js"></script>
 </body>

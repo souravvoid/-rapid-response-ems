@@ -9,13 +9,33 @@ auth_bp = Blueprint("auth", __name__)
 def home():
     return redirect(url_for("auth.login_page"))
 
-@auth_bp.route("/signup", methods=["GET"])
+@auth_bp.route("/signup", methods=["GET", "POST"])
 def signup_page():
+    if request.method == "POST":
+        # handle form submission
+        email = request.form.get("email")
+        password = request.form.get("password")
+        name = request.form.get("name", "")
+        if User.query.filter_by(email=email).first():
+            return render_template("signup.html", error="Email already exists")
+        user = User(email=email, password_hash=generate_password_hash(password), name=name)
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for("auth.login_page"))
     return render_template("signup.html")
 
-@auth_bp.route("/login", methods=["GET"])
+@auth_bp.route("/login", methods=["GET", "POST"])
 def login_page():
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+        user = User.query.filter_by(email=email).first()
+        if not user or not check_password_hash(user.password_hash, password):
+            return render_template("login.html", error="Invalid credentials")
+        session["user_id"] = user.id
+        return redirect(url_for("auth.dashboard_page"))
     return render_template("login.html")
+
 
 @auth_bp.route("/api/signup", methods=["POST"])
 def api_signup():
