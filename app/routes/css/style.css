@@ -1,0 +1,220 @@
+/* -------------------- GLOBAL THEME -------------------- */
+:root {
+  --sidebar: #0f172a;
+  --sidebar-light: #1e293b;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --primary: #0284c7;
+  --primary-dark: #0369a1;
+  --text: #0f172a;
+  --muted: #64748b;
+  --radius: 14px;
+  --shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  min-height: 100vh;
+}
+
+/* -------------------- SIDEBAR -------------------- */
+.sidebar {
+  width: 240px;
+  background: var(--sidebar);
+  color: #fff;
+  padding: 2rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.sidebar .brand {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.nav-item {
+  margin-bottom: 1rem;
+}
+
+.nav-item a {
+  color: #cbd5e1;
+  text-decoration: none;
+  display: block;
+  font-weight: 600;
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  transition: 0.15s;
+}
+
+.nav-item a:hover,
+.nav-item a.active {
+  background: var(--sidebar-light);
+  color: white;
+}
+
+/* -------------------- MAIN PAGE AREA -------------------- */
+.main {
+  flex: 1;
+  padding: 2rem;
+  margin-left: 240px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.8rem;
+}
+
+.topbar h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.btn-logout {
+  padding: 0.6rem 1rem;
+  border: none;
+  background: #e63946;
+  color: white;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-logout:hover {
+  background: #c53030;
+}
+
+/* -------------------- CARDS -------------------- */
+.card {
+  background: var(--card);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+}
+
+.card h2 {
+  margin-bottom: 0.8rem;
+  font-size: 1.3rem;
+}
+
+/* -------------------- FORM -------------------- */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.label {
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+.input, select {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: var(--radius);
+  border: 1px solid #e2e8f0;
+  font-size: 1rem;
+}
+
+.input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(2,132,199,0.2);
+}
+
+/* Buttons */
+.btn {
+  padding: 0.8rem 1rem;
+  width: 100%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 1rem;
+}
+
+.btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  width: auto;
+  padding: 0.6rem 0.9rem;
+  border-radius: var(--radius);
+  background: white;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background: #eefaff;
+}
+
+/* -------------------- GRID (Dashboard Layout) -------------------- */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* -------------------- ASSIGNED REQUESTS -------------------- */
+.assigned-item {
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius);
+  margin-bottom: 0.8rem;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Severity Badges */
+.badge {
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.badge-critical { background: #fee2e2; color: #b91c1c; }
+.badge-high     { background: #fff7ed; color: #c2410c; }
+.badge-medium   { background: #fef9c3; color: #a16207; }
+.badge-low      { background: #ecfdf5; color: #15803d; }
+
+/* -------------------- MAP -------------------- */
+#map {
+  width: 100%;
+  height: 380px;
+  border-radius: var(--radius);
+  margin-top: 0.8rem;
+}
