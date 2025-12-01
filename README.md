@@ -257,7 +257,13 @@ Fully customizable.
 ---
 ---
 
-# 🖼 **Screenshots (Suggested to Add)**
+# 🖼 **Screenshots **
+![App Screenshot](assets/1.png)
+![App Screenshot](assets/2.png)
+![App Screenshot](assets/3.png)
+![App Screenshot](assets/4.png)
+![App Screenshot](assets/5.png)
+
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.9%2B-blue" />
