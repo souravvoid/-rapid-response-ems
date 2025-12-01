@@ -259,9 +259,13 @@ Fully customizable.
 
 # 🖼 **Screenshots **
 ![App Screenshot](assets/1.png)
+
 ![App Screenshot](assets/2.png)
+
 ![App Screenshot](assets/3.png)
+
 ![App Screenshot](assets/4.png)
+
 ![App Screenshot](assets/5.png)
 
 
@@ -274,15 +278,6 @@ Fully customizable.
   <img src="https://img.shields.io/badge/Platform-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey" />
 </p>
 
-
-
-Add images in README:
-
-* Login page
-* User dashboard
-* Emergency form
-* Driver dashboard
-* Real-time map
 
 ---
 
