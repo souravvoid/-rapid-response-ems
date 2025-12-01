@@ -253,41 +253,8 @@ ETA = distance(km) / avg_speed
 Speed default: **60 km/h**
 Fully customizable.
 
+
 ---
-
-# 🧪 **Testing Guide**
-
-You should test:
-
-### ✔ Authentication
-
-* Wrong password
-* Missing fields
-* Session expiration
-
-### ✔ Emergency Form
-
-* Missing GPS
-* All severity levels
-
-### ✔ Dispatch Logic
-
-* No ambulances available
-* No hospitals available
-* Out-of-range distances
-
-### ✔ Driver Dashboard
-
-* Live GPS
-* API updates
-* Route refresh
-
-### ✔ Background Load
-
-* Multiple incidents
-* Priority assignment
-* Graph performance
-
 ---
 
 # 🖼 **Screenshots (Suggested to Add)**
@@ -315,7 +282,7 @@ Add images in README:
 
 # 🔮 **Future Improvements**
 
-Some cool features you can add:
+
 
 * Real-time WebSocket GPS
 * AI-based ambulance prediction
